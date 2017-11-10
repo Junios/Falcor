@@ -4,14 +4,14 @@ INCLUDES = \
 -I "Framework" \
 -I "Framework/Source" \
 -I "Framework/Externals/GLM" \
--I "Framework/Externals/GLFW/include" \
 -I "Framework/Externals/OpenVR/headers" \
 -I "Framework/Externals/RapidJson/include" \
 -I "Framework/Externals/FFMPEG/include" \
 -I "$(VULKAN_SDK)/include" \
 -I "/usr/include" \
-$(shell pkg-config --cflags assimp gtk+-3.0)
+$(shell pkg-config --cflags assimp glfw3 gtk+-3.0)
 
+#-I "Framework/Externals/GLFW/include"
 # No pkg-config metadata: glm freeimage
 # glm needs to be a newer version than what's on Linux repos, so pull from packman
 # Using older version of RapidJson, pull from packman
@@ -26,15 +26,16 @@ $(shell pkg-config --cflags assimp gtk+-3.0)
 ADDITIONAL_LIB_DIRS = -L "Bin/" \
 -L "Framework/Externals/OpenVR/lib" \
 -L "Framework/Externals/FFMPEG/lib" \
--L "Framework/Externals/GLFW/lib" \
 -L "Framework/Externals/Slang/bin/linux-x86_64/release" \
 -L "$(VULKAN_SDK)/lib"
+#-L "Framework/Externals/GLFW/lib"
 
 LIBS = -lfalcor \
 -lfreeimage -lslang -lslang-glslang -lopenvr_api \
-$(shell pkg-config --libs assimp gtk+-3.0 ) -lglfw3 \
--lvulkan -lxkbcommon -lwayland-cursor -lwayland-egl -lwayland-client  \
--lstdc++fs -lrt -lm -ldl -lz -lpthread
+$(shell pkg-config --static --libs assimp glfw3 gtk+-3.0 ) \
+-lvulkan -lstdc++fs
+#-lxkbcommon -lwayland-cursor -lwayland-egl -lwayland-client 
+#-lstdc++fs -lrt -lm -ldl -lz -lpthread
 # ffmpeg stuff: -lavcodec -lavdevice -lavformat -lswscale -lavutil -lopus
 
 # Compiler Flags

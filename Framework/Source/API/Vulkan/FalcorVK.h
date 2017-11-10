@@ -32,13 +32,21 @@
 #ifdef _WIN32
     #define VK_USE_PLATFORM_WIN32_KHR
 #else
-    #define VK_USE_PLATFORM_WAYLAND_KHR
+    #define VK_USE_PLATFORM_XLIB_KHR
 #endif
 
 #include <vulkan/vulkan.h>
 
 #ifdef _WIN32
     #pragma comment(lib, "vulkan-1.lib")
+#endif
+
+// Remove some defines included by vulkan.h from X11
+#ifdef __GNUC__
+#undef None
+#undef Status
+#undef Bool
+#undef Always
 #endif
 
 #include "API/Vulkan/VKSmartHandle.h"
@@ -70,9 +78,8 @@ namespace Falcor
 #else
     struct WindowHandle
     {
-        wl_display* pWlDisplay;
-        wl_surface* pWlSurface;
-        wl_output* pWlOutput;
+        Display* pDisplay;
+        Window window;
     };
 #endif
 

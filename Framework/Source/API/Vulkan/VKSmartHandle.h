@@ -115,7 +115,7 @@ namespace Falcor
 
     enum class VkResourceType
     {
-        None,
+        Invalid,
         Image,
         Buffer
     };
@@ -146,7 +146,7 @@ namespace Falcor
         VkResource(ImageType image, VkDeviceMemory mem) : mType(VkResourceType::Image), mImage(image), mDeviceMem(mem) {}
         VkResource(BufferType buffer, VkDeviceMemory mem) : mType(VkResourceType::Buffer), mBuffer(buffer), mDeviceMem(mem) {}
 
-        VkResourceType mType = VkResourceType::None;
+        VkResourceType mType = VkResourceType::Invalid;
         ImageType mImage = VK_NULL_HANDLE;
         BufferType mBuffer = VK_NULL_HANDLE;
         VkDeviceMemory mDeviceMem = VK_NULL_HANDLE;

@@ -524,12 +524,12 @@ namespace Falcor
             return nullptr;
         }
 #else
-        VkWaylandSurfaceCreateInfoKHR createInfo = {};
-        createInfo.sType = VK_STRUCTURE_TYPE_WAYLAND_SURFACE_CREATE_INFO_KHR;
-        createInfo.display = pWindow->getApiHandle().pWlDisplay;
-        createInfo.surface = pWindow->getApiHandle().pWlSurface;
+        VkXlibSurfaceCreateInfoKHR createInfo = {};
+        createInfo.sType = VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR;
+        createInfo.dpy = pWindow->getApiHandle().pDisplay;
+        createInfo.window = pWindow->getApiHandle().window;
 
-        if (VK_FAILED(vkCreateWaylandSurfaceKHR(instance, &createInfo, nullptr, &surface)))
+        if (VK_FAILED(vkCreateXlibSurfaceKHR(instance, &createInfo, nullptr, &surface)))
         {
             logError("Could not create Vulkan surface.");
             return nullptr;

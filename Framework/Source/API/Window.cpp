@@ -40,11 +40,13 @@
 #ifdef _WIN32
 #define GLFW_EXPOSE_NATIVE_WIN32
 #else
-#define GLFW_EXPOSE_NATIVE_WAYLAND
+#define GLFW_EXPOSE_NATIVE_X11
+#define GLFW_EXPOSE_NATIVE_EGL
+#include <X11/X.h>
 #endif
 
-#include "glfw3.h"
-#include "glfw3native.h"
+#include "GLFW/glfw3.h"
+#include "GLFW/glfw3native.h"
 
 // #HACK Why does glfw3.h define _WIN32 on linux/gcc?
 #ifndef _MSC_VER
@@ -380,12 +382,9 @@ namespace Falcor
         pWindow->mApiHandle = glfwGetWin32Window(pGLFWWindow);
         assert(pWindow->mApiHandle);
 #else
-        pWindow->mApiHandle.pWlDisplay = glfwGetWaylandDisplay();
-        pWindow->mApiHandle.pWlSurface = glfwGetWaylandWindow(pGLFWWindow);
-
-        // #TODO: Fullscreen handling
-        //pWindow->mApiHandle.pWlOutput = glfwGetWaylandMonitor(pGLFWMonitor);
-        assert(pWindow->mApiHandle.pWlDisplay && pWindow->mApiHandle.pWlSurface);
+        pWindow->mApiHandle.pDisplay = glfwGetX11Display();
+        pWindow->mApiHandle.window = glfwGetX11Window(pGLFWWindow);
+        assert(pWindow->mApiHandle.pDisplay);
 #endif
 
         glfwSetWindowUserPointer(pGLFWWindow, pWindow.get());
