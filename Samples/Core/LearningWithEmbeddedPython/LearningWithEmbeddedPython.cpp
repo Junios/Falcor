@@ -37,7 +37,11 @@ class DemoApp : public MultiRendererSample
     virtual Scene::SharedPtr loadScene(const std::string& filename) override;
 };
 
+#ifdef _WIN32
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
+#else
+int main()
+#endif
 {
     // Our application program
     MultiRendererSample sample;
@@ -62,6 +66,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
     // Run the program
     sample.run(config);
+
+#ifndef _WIN32
+    return 0;
+#endif
 }
 
 Scene::SharedPtr DemoApp::loadScene(const std::string& filename)
